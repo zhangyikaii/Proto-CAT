@@ -1,0 +1,82 @@
+source activate zykycy
+python ../models/ycy.py \
+    --gpu 1 \
+    --data_path /data/zhangyk/data \
+    --dataset MiniImageNet \
+    --test_way 5 \
+    --test_shot 1 \
+    --test_query 15 \
+    --distance l2 \
+    --backbone_class ConvNet \
+    --logger_filename /z_logs \
+    --rougee_episodes_per_epoch 1000 \
+    --rougee_norm_type_list cl1n__trct_pca_cpnt_svd_extd__prt \
+    --meta_batch_size 1 \
+    --init_weights /home/zhangyk/pre_trained_weights \
+    --rougee_cache_path /home/zhangyk/pre_trained_weights \
+    --batch_size 128 \
+    --verbose \
+    --nearest_topk 32 \
+    --tr_pca_n_components 640 \
+    --trct_pca_n_components 640 \
+    --copy_support_ratio 0.1 \
+    --epoch_verbose \
+    --tmux_online \
+    --tukey_beta 0.5 \
+    --cpnt_extd_plot
+    # --multiview \
+    # --multiview_rotation_degree_list 0 90 180 270 \
+
+# ori__tr_pca_cpnt_svd_extd__prt c__tr_pca_cpnt_svd_extd__prt l1n__tr_pca_cpnt_svd_extd__prt cl1n__tr_pca_cpnt_svd_extd__prt l2n__tr_pca_cpnt_svd_extd__prt cl2n__tr_pca_cpnt_svd_extd__prt
+# ori__tr_pca_cpnt_svd_extd__prt z__tr_pca_cpnt_svd_extd__prt zl1n__tr_pca_cpnt_svd_extd__prt zl2n__tr_pca_cpnt_svd_extd__prt
+# ori__tr_pca_cpnt_svd_extd__prt tky__tr_pca_cpnt_svd_extd__prt l1n__tr_pca_cpnt_svd_extd__prt cl1n__tr_pca_cpnt_svd_extd__prt l2n__tr_pca_cpnt_svd_extd__prt cl2n__tr_pca_cpnt_svd_extd__prt
+# ori__tr_pca_cpnt_svd_extd__prt tky__tr_pca_cpnt_svd_extd__prt l1ntky__tr_pca_cpnt_svd_extd__prt l2ntky__tr_pca_cpnt_svd_extd__prt ctky__tr_pca_cpnt_svd_extd__prt cl1ntky__tr_pca_cpnt_svd_extd__prt cl2ntky__tr_pca_cpnt_svd_extd__prt
+# # ori__tr_pca_cpnt_svd_extd__prt ck_w1__tr_pca_cpnt_svd_extd__prt ck_w2__tr_pca_cpnt_svd_extd__prt ck_w3__tr_pca_cpnt_svd_extd__prt ck_w5__tr_pca_cpnt_svd_extd__prt ck_w9__tr_pca_cpnt_svd_extd__prt ck_w13__tr_pca_cpnt_svd_extd__prt ck_w19__tr_pca_cpnt_svd_extd__prt ck_w25__tr_pca_cpnt_svd_extd__prt ck_w33__tr_pca_cpnt_svd_extd__prt ck_w41__tr_pca_cpnt_svd_extd__prt ck_w51__tr_pca_cpnt_svd_extd__prt ck_w61__tr_pca_cpnt_svd_extd__prt ck_w64__tr_pca_cpnt_svd_extd__prt
+# l1n__tr_pca_cpnt_svd_extd__prt ck_w1_l1n__tr_pca_cpnt_svd_extd__prt ck_w2_l1n__tr_pca_cpnt_svd_extd__prt ck_w3_l1n__tr_pca_cpnt_svd_extd__prt ck_w5_l1n__tr_pca_cpnt_svd_extd__prt ck_w9_l1n__tr_pca_cpnt_svd_extd__prt ck_w13_l1n__tr_pca_cpnt_svd_extd__prt ck_w19_l1n__tr_pca_cpnt_svd_extd__prt ck_w25_l1n__tr_pca_cpnt_svd_extd__prt ck_w33_l1n__tr_pca_cpnt_svd_extd__prt ck_w41_l1n__tr_pca_cpnt_svd_extd__prt ck_w51_l1n__tr_pca_cpnt_svd_extd__prt ck_w61_l1n__tr_pca_cpnt_svd_extd__prt ck_w64_l1n__tr_pca_cpnt_svd_extd__prt
+# l1n__tr_pca_cpnt_svd_extd__prt ck_w1_l1n__tr_pca_cpnt_svd_extd__prt ck_w2_l1n__tr_pca_cpnt_svd_extd__prt ck_w5_l1n__tr_pca_cpnt_svd_extd__prt ck_w13_l1n__tr_pca_cpnt_svd_extd__prt ck_w25_l1n__tr_pca_cpnt_svd_extd__prt ck_w33_l1n__tr_pca_cpnt_svd_extd__prt ck_w41_l1n__tr_pca_cpnt_svd_extd__prt ck_w51_l1n__tr_pca_cpnt_svd_extd__prt ck_w64_l1n__tr_pca_cpnt_svd_extd__prt
+# l2n__tr_pca_cpnt_svd_extd__prt ck_w1_l2n__tr_pca_cpnt_svd_extd__prt ck_w2_l2n__tr_pca_cpnt_svd_extd__prt ck_w5_l2n__tr_pca_cpnt_svd_extd__prt ck_w13_l2n__tr_pca_cpnt_svd_extd__prt ck_w25_l2n__tr_pca_cpnt_svd_extd__prt ck_w33_l2n__tr_pca_cpnt_svd_extd__prt ck_w41_l2n__tr_pca_cpnt_svd_extd__prt ck_w51_l2n__tr_pca_cpnt_svd_extd__prt ck_w64_l2n__tr_pca_cpnt_svd_extd__prt
+# l1n__tr_pca_cpnt_svd_extd__prt ck_w1_cpsp_l1n__tr_pca_cpnt_svd_extd__prt ck_w2_cpsp_l1n__tr_pca_cpnt_svd_extd__prt ck_w5_cpsp_l1n__tr_pca_cpnt_svd_extd__prt ck_w13_cpsp_l1n__tr_pca_cpnt_svd_extd__prt ck_w25_cpsp_l1n__tr_pca_cpnt_svd_extd__prt ck_w33_cpsp_l1n__tr_pca_cpnt_svd_extd__prt ck_w41_cpsp_l1n__tr_pca_cpnt_svd_extd__prt ck_w51_cpsp_l1n__tr_pca_cpnt_svd_extd__prt ck_w64_cpsp_l1n__tr_pca_cpnt_svd_extd__prt
+# l2n__tr_pca_cpnt_svd_extd__prt ck_w1_cpsp_l2n__tr_pca_cpnt_svd_extd__prt ck_w2_cpsp_l2n__tr_pca_cpnt_svd_extd__prt ck_w5_cpsp_l2n__tr_pca_cpnt_svd_extd__prt ck_w13_cpsp_l2n__tr_pca_cpnt_svd_extd__prt ck_w25_cpsp_l2n__tr_pca_cpnt_svd_extd__prt ck_w33_cpsp_l2n__tr_pca_cpnt_svd_extd__prt ck_w41_cpsp_l2n__tr_pca_cpnt_svd_extd__prt ck_w51_cpsp_l2n__tr_pca_cpnt_svd_extd__prt ck_w64_cpsp_l2n__tr_pca_cpnt_svd_extd__prt
+# ori__tr_pca_cpnt_svd_extd__prt cs__tr_pca_cpnt_svd_extd__prt csl1n__tr_pca_cpnt_svd_extd__prt csl2n__tr_pca_cpnt_svd_extd__prt
+# ori__tr_pca_cpnt_svd_extd__prt c__trcpsp_pca_cpnt_svd_extd__prt
+# cl1n__trcpsp_pca_cpnt_svd_extd__prt cl2n__trcpsp_pca_cpnt_svd_extd__prt
+# ori__tr_pca_cpnt_svd_extd__prt c__trct_pca_cpnt_svd_extd__prt
+# cl1n__trct_pca_cpnt_svd_extd__prt cl2n__trct_pca_cpnt_svd_extd__prt cw__trct_pca_cpnt_svd_extd__prt
+# ori__tr_rglda_lap_cpnt_svd_extd__prt
+# ori__sklearn_LDA__prt
+# ori__tr_rglda_eig_cpnt_svd_extd__prt c__tr_rglda_eig_cpnt_svd_extd__prt l1n__tr_rglda_eig_cpnt_svd_extd__prt cl1n__tr_rglda_eig_cpnt_svd_extd__prt l2n__tr_rglda_eig_cpnt_svd_extd__prt cl2n__tr_rglda_eig_cpnt_svd_extd__prt
+# z__ori__prt zl1n__ori__prt zl2n__ori__prt
+
+# ori__tr_rglda_cpnt_svd_extd__prt
+# cl2n__ori__prt tky__ori__prt ctky__ori__prt cl1n__ori__prt l1ntky__ori__prt l2ntky__ori__prt cl1ntky__ori__prt cl2ntky__ori__prt zl2n__ori__prt
+# cw__trct_pca_cpnt_svd_extd__prt
+# ck__tr_pca_cpnt_svd_extd__prt
+# ori__trc_pca_pure__trcprt ori__trc_pca_cpnt_svd_extd__trcprt
+# c__trct_pca_cpnt_svd_extd__prt
+# ori__ori__prt zl2n__ori__prt
+# ori__tecca__prt
+# ori__tr_pca_cpnt_svd_extd__prt cl1ntky__ori__prt cl2n__tr_pca_cpnt_svd_extd__prt
+# ori__ycy_DC__svm_skln, c__ycy_DC__svm_skln, ori__ori__prt
+# c__tr_pca_pure__prt, c__ori__tr_s_c_pca_pure, ori__ori__prt
+# ori__ori__prt, l1n__ori__prt, l2n__ori__prt, c__ori__prt, cl1n__ori__prt, cl2n__ori__prt, z__ori__prt, zl1n__ori__prt, zl2n__ori__prt, c__tr_pca_pure__prt, cl1n__tr_pca_pure__prt, cl2n__tr_pca_pure__prt, c__tr_pca_pure__lr_skln, cl1n__tr_pca_pure__lr_skln, cl2n__tr_pca_pure__lr_skln
+
+
+# PCA 不同特征值率:
+# c__tr_pca_pure__prt, cl1n__tr_pca_pure__prt, cl2n__tr_pca_pure__prt
+
+# ori,l2n,cl2n,z_score,centering,
+# ycy_DC, ycy_DC_cl2n, ycy_MG
+# sklearn_PCA, sklearn_LDA, sklearn_NCA
+# meta_test_zca_whitening,meta_test_pca_whitening,meta_test_pca_pure,meta_test_zca_corr_whitening,meta_test_pca_corr_whitening,
+# meta_train_zca_whitening,meta_train_pca_whitening,meta_train_pca_pure,meta_train_zca_corr_whitening,meta_train_pca_corr_whitening
+
+# protonet_aug, protonet, lr_sklearn, k_nn
+
+# un__protonet, centering__protonet, l2n__protonet, cl2n__protonet, z_score__protonet
+# un__protonet, meta_train_pca_pure__protonet, meta_train_pca_pure__k_nn, meta_train_pca_pure__lr_sklearn
+
+# un__protonet, ycy_DC__protonet_aug, ycy_DC_cl2n__protonet_aug, ycy_MG__protonet_aug
+# un__protonet, ycy_DC__lr_sklearn, ycy_DC_cl2n__lr_sklearn, ycy_MG__lr_sklearn
+# un__protonet, sklearn_PCA__protonet, sklearn_PCA__k_nn, meta_train_pca_pure__protonet, meta_train_pca_pure__k_nn
+# un__protonet, sklearn_LDA__protonet
+# un__protonet, meta_train_zca_whitening__protonet, meta_train_pca_whitening__protonet, meta_train_pca_pure__protonet, meta_train_zca_corr_whitening__protonet, meta_train_pca_corr_whitening__protonet

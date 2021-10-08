@@ -1,0 +1,25 @@
+python grid_search.py \
+    --gpu 4 \
+    --model_class ProtoNet \
+    --distance l2 \
+    --backbone_class ConvNet \
+    --dataset MiniImageNet \
+    --train_way 30 --val_way 16 --test_way 5 \
+    --shot 1 --test_shot 1 \
+    --query 15 --test_query 15 \
+    --logger_filename /logs \
+    --balance 1 \
+    --temperature 64 \
+    --temperature2 16 \
+    --lr 0.0001 --lr_mul 10 --lr_scheduler step \
+    --step_size 20 \
+    --gamma 0.5 \
+    --val_interval 1 \
+    --test_interval 0 \
+    --loss_fn F-cross_entropy \
+    --verbose \
+    --epoch_verbose \
+    --torch_seed 1 \
+    --cuda_seed 2 \
+    --np_seed 3 \
+    --test_model_filepath "/mnt/data3/lus/zhangyk/models/ProtoNet/1222 11-41-09-127 ProtoNet MiniImageNet ConvNet-backbone l2 30-way 16-val-way 1-shot 15-query 5-test-way 1-test-shot 15-test-query.pth"

@@ -1,0 +1,60 @@
+li,audio
+di qu,audio
+dian,video
+shuo,audio
+yi jing,video
+nin,video
+yu,video
+mei,audio
+a,video
+wo men,video
+si,video
+san,video
+dang zhong,audio
+n,audio
+xian zai,audio
+ni,audio
+qi,audio
+ming,audio
+yao,audio
+jiu,audio
+hao,audio
+dai,audio
+liang,audio
+shi,audio
+hua,video
+di,audio
+he zuo,audio
+guan zhu,audio
+e,audio
+dao,video
+na,audio
+jin tian,audio
+da,video
+hui,audio
+ren,audio
+bu,video
+lai,video
+shi jian,audio
+te,video
+mei guo,video
+nian,audio
+na me,video
+duo,video
+de,audio
+ci,video
+fa zhan,audio
+zhe zhong,video
+jiu shi,audio
+zhe yang,audio
+wu,audio
+yi xie,audio
+ji,audio
+ke yi,video
+zhi,video
+cong,video
+deng,audio
+jin xing,audio
+wei,audio
+xin wen,video
+yi xia,audio

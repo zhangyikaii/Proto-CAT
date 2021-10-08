@@ -1,0 +1,31 @@
+source activate zykycy
+python ../main.py \
+    --do_test \
+    --meta_batch_size 1 \
+    --data_path /data/zhangyk/data \
+    --max_epoch 50 \
+    --gpu 1 \
+    --model_class MultiModalProtoNet \
+    --distance l2 \
+    --lr_scheduler cosine cosine \
+    --mm_list video audio \
+    --dataset LRW \
+    --train_way 5 --val_way 5 --test_way 5 \
+    --train_shot 1 --val_shot 1 --test_shot 1 \
+    --train_query 15 --val_query 15 --test_query 15 \
+    --logger_filename /z_logs \
+    --temperature 64 \
+    --lr 0.00001 \
+    --cosine_annealing_lr_eta_min 0.000001 \
+    --gamma 1 \
+    --grad_scaler \
+    --val_interval 1 \
+    --test_interval 0 \
+    --loss_fn F-cross_entropy \
+    --gfsl_test \
+    --acc_per_class \
+    --epoch_verbose \
+    --backend_type LSTM GRU \
+    --init_weights /home/zhangyk/pre_trained_weights \
+    --verbose \
+    --mm_loss_audio

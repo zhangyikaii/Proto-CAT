@@ -1,0 +1,26 @@
+source activate zykycy
+python ../alchemy_sequential.py \
+    --do_train \
+    --do_test \
+    --max_epoch 50 \
+    --data_path /data/zhangyk/data \
+    --model_class RGTIMA \
+    --lr_scheduler cosine cosine \
+    --mm_list video audio \
+    --distance l2 \
+    --dataset LRW \
+    --train_way 5 --val_way 5 --test_way 5 \
+    --train_shot 1 --val_shot 1 --test_shot 1 \
+    --train_query 15 --val_query 15 --test_query 15 \
+    --temperature 64 \
+    --lr 0.0001 \
+    --cosine_annealing_lr_eta_min 0.000005 \
+    --is_alchemy \
+    --grad_scaler \
+    --gfsl_test \
+    --acc_per_class \
+    --mm_loss_video \
+    --mm_loss_audio \
+    --backend_type GRU \
+    --epoch_verbose \
+    --verbose

@@ -1,0 +1,14 @@
+PyTurboJPEG==1.5.1
+torchaudio==0.9.0
+opencv_python==4.5.3.56
+matplotlib==3.4.2
+numpy==1.20.3
+torch==1.9.0+cu111
+qpth==0.0.15
+audiomentations==0.18.0
+scipy==1.7.0
+torchvision==0.10.0+cu111
+librosa==0.8.1
+tqdm==4.62.0
+PyYAML==5.4.1
+scikit_learn==1.0

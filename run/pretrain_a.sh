@@ -1,0 +1,30 @@
+source activate zykycy
+python ../main.py \
+    --do_train \
+    --do_test \
+    --meta_batch_size 1 \
+    --data_path /data/zhangyk/data \
+    --max_epoch 100 \
+    --gpu 0 \
+    --model_class RTPretrainClassifier \
+    --distance l2 \
+    --backbone_class Conv1dResNet \
+    --dataset LRW \
+    --val_way 16 --test_way 5 \
+    --val_shot 1 --test_shot 1 \
+    --val_query 15 --test_query 15 \
+    --logger_filename /z_logs \
+    --temperature 64 \
+    --lr 0.0001 \
+    --lr_scheduler cosine \
+    --cosine_annealing_lr_eta_min 0.000001 \
+    --val_interval 1 \
+    --test_interval 0 \
+    --loss_fn nn-cross_entropy \
+    --batch_size 256 \
+    --paradigm classical few-shot few-shot \
+    --grad_scaler \
+    --epoch_verbose \
+    --inlayer_resnet_type resnet18 \
+    --backend_type GRU \
+    --verbose
