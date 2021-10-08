@@ -1,0 +1,110 @@
+2021/10/08 10:13:10 PM acc_per_class: True
+2021/10/08 10:13:10 PM augment: False
+2021/10/08 10:13:10 PM backbone_class: ['Conv3dResNet', 'Conv1dResNet']
+2021/10/08 10:13:10 PM backend_type: ['LSTM', 'GRU']
+2021/10/08 10:13:10 PM batch_size: 128
+2021/10/08 10:13:10 PM cosine_annealing_lr_eta_min: 5e-06
+2021/10/08 10:13:10 PM cuda_seed: 929
+2021/10/08 10:13:10 PM data_path: /data/zhangyk/data
+2021/10/08 10:13:10 PM dataset: LRW1000
+2021/10/08 10:13:10 PM distance: l2
+2021/10/08 10:13:10 PM do_prefetch: False
+2021/10/08 10:13:10 PM do_test: True
+2021/10/08 10:13:10 PM do_train: True
+2021/10/08 10:13:10 PM drop_lr_every: 40
+2021/10/08 10:13:10 PM episodes_per_test_epoch: 10000
+2021/10/08 10:13:10 PM episodes_per_train_epoch: 200
+2021/10/08 10:13:10 PM episodes_per_val_epoch: 200
+2021/10/08 10:13:10 PM epoch_verbose: True
+2021/10/08 10:13:10 PM fix_BN: False
+2021/10/08 10:13:10 PM gamma: 1.0
+2021/10/08 10:13:10 PM gfsl_test: True
+2021/10/08 10:13:10 PM gfsl_train: True
+2021/10/08 10:13:10 PM gpu: 0,1
+2021/10/08 10:13:10 PM gpu_space_require: 30000
+2021/10/08 10:13:10 PM grad_scaler: True
+2021/10/08 10:13:10 PM init_weights: /home/zhangyk/pre_trained_weights
+2021/10/08 10:13:10 PM inlayer_resnet_type: resnet18
+2021/10/08 10:13:10 PM inner_lr: 0.4
+2021/10/08 10:13:10 PM inner_train_steps: 1
+2021/10/08 10:13:10 PM inner_val_steps: 3
+2021/10/08 10:13:10 PM is_alchemy: False
+2021/10/08 10:13:10 PM laplacian_protonet_delta: 0.3
+2021/10/08 10:13:10 PM laplacian_protonet_lambda: 6
+2021/10/08 10:13:10 PM laplacian_protonet_query_distance_temperature: 4
+2021/10/08 10:13:10 PM log_interval: 50
+2021/10/08 10:13:10 PM logger_filename: /z_logs
+2021/10/08 10:13:10 PM loss_fn: F-cross_entropy
+2021/10/08 10:13:10 PM lr: 1e-05
+2021/10/08 10:13:10 PM lr_mul: 10
+2021/10/08 10:13:10 PM lr_scheduler: ['cosine', 'cosine']
+2021/10/08 10:13:10 PM matching_fce: False
+2021/10/08 10:13:10 PM matching_lstm_layers: 1
+2021/10/08 10:13:10 PM matching_normalized: False
+2021/10/08 10:13:10 PM matching_unrolling_steps: 2
+2021/10/08 10:13:10 PM max_epoch: 50
+2021/10/08 10:13:10 PM meta: False
+2021/10/08 10:13:10 PM meta_batch_size: 1
+2021/10/08 10:13:10 PM meta_lr: 0.001
+2021/10/08 10:13:10 PM metalearner_update_lr: 0.0001
+2021/10/08 10:13:10 PM metalearner_update_step: 4
+2021/10/08 10:13:10 PM metalearner_w_dim: 64
+2021/10/08 10:13:10 PM mm_incomplete_type_audio: 
+2021/10/08 10:13:10 PM mm_incomplete_type_video: 
+2021/10/08 10:13:10 PM mm_list: ['video', 'audio']
+2021/10/08 10:13:10 PM mm_loss_audio: False
+2021/10/08 10:13:10 PM mm_loss_video: False
+2021/10/08 10:13:10 PM model_class: ProtoCAT
+2021/10/08 10:13:10 PM model_filepath: /data/zhangyk/models/ProtoCAT/1008-22-13-10-897 ProtoCAT LRW1000 Conv3dResNet_Conv1dResNet-backbone l2 5-1-8_train-w-s-q 5-1-15_val-w-s-q 5-1-15_test-w-s-q.pth
+2021/10/08 10:13:10 PM model_save_path: /data/zhangyk/models
+2021/10/08 10:13:10 PM momentum: 0.9
+2021/10/08 10:13:10 PM nearest_topk: 3
+2021/10/08 10:13:10 PM np_seed: 929
+2021/10/08 10:13:10 PM num_tasks: 4
+2021/10/08 10:13:10 PM num_workers: 4
+2021/10/08 10:13:10 PM order: 1
+2021/10/08 10:13:10 PM orig_imsize: -1
+2021/10/08 10:13:10 PM paradigm: 7
+2021/10/08 10:13:10 PM params_str: 1008-22-13-10-897 ProtoCAT LRW1000 Conv3dResNet_Conv1dResNet-backbone l2 5-1-8_train-w-s-q 5-1-15_val-w-s-q 5-1-15_test-w-s-q
+2021/10/08 10:13:10 PM random_seed: 929
+2021/10/08 10:13:10 PM relation_hidden_dim: 8
+2021/10/08 10:13:10 PM rougee_cache_path: None
+2021/10/08 10:13:10 PM rougee_norm_type_list: ['ori__ori__prt']
+2021/10/08 10:13:10 PM save_dir: ./checkpoints
+2021/10/08 10:13:10 PM step_size: 20
+2021/10/08 10:13:10 PM temperature: 64.0
+2021/10/08 10:13:10 PM temperature2: 1
+2021/10/08 10:13:10 PM tensorboard_log_dir: /z_logs/ycy_tensorboard
+2021/10/08 10:13:10 PM test_interval: 0
+2021/10/08 10:13:10 PM test_model_filepath: None
+2021/10/08 10:13:10 PM test_query: 15
+2021/10/08 10:13:10 PM test_shot: 1
+2021/10/08 10:13:10 PM test_way: 5
+2021/10/08 10:13:10 PM time_str: 1008-22-13-10-897
+2021/10/08 10:13:10 PM torch_seed: 929
+2021/10/08 10:13:10 PM tr_pca_n_components: None
+2021/10/08 10:13:10 PM tr_pca_ratio: 0.95
+2021/10/08 10:13:10 PM train_monitor: categorical accuracy
+2021/10/08 10:13:10 PM train_query: 8
+2021/10/08 10:13:10 PM train_shot: 1
+2021/10/08 10:13:10 PM train_way: 5
+2021/10/08 10:13:10 PM unimodal: False
+2021/10/08 10:13:10 PM val_interval: 1
+2021/10/08 10:13:10 PM val_query: 15
+2021/10/08 10:13:10 PM val_shot: 1
+2021/10/08 10:13:10 PM val_way: 5
+2021/10/08 10:13:10 PM verbose: True
+2021/10/08 10:13:10 PM weight_decay: 0.0005
+2021/10/08 10:13:10 PM weijing_base_feature_update_tiktok: 40
+2021/10/08 10:13:10 PM weijing_is_hc: False
+2021/10/08 10:13:10 PM weijing_is_learn_center: False
+2021/10/08 10:13:10 PM weijing_is_learn_lambda: False
+2021/10/08 10:13:10 PM weijing_lambda_base: 1.0
+2021/10/08 10:13:10 PM weijing_lambda_init: 0.1
+2021/10/08 10:13:10 PM weijing_lap_delta: 64.0
+2021/10/08 10:13:10 PM weijing_mode: 
+2021/10/08 10:13:10 PM weijing_multiview: False
+2021/10/08 10:13:10 PM weijing_multiview_num: 4
+2021/10/08 10:13:10 PM without_enlarge: False
+2021/10/08 10:13:10 PM z_comment: Here are some comments for the current training process.
+2021/10/08 10:13:19 PM Begin training...
