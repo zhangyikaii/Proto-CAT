@@ -21,7 +21,7 @@ The code repository for "Audio-Visual Generalized Few-Shot Learning with Prototy
 <p align="center">
     <img src="assets/model.png" width = "60%">
 </p>
-**Illustration of Proto-CAT.** The model transforms the classification space using <img src = "assets/T.svg"/> based on two kinds of audio-visual prototypes (class centers): (1) the base training categories (color with <img src = "https://via.placeholder.com/15/4099d8/000000?text=+"/>blue, <img src = "https://via.placeholder.com/15/3fa864/000000?text=+"/>green, and <img src = "https://via.placeholder.com/15/f256ad/000000?text=+"/>pink); and (2) the additional novel test categories (color with <img src = "https://via.placeholder.com/15/b53600/000000?text=+"/>burning transition). Proto-CAT learns and generalizes on novel test categories from *limited labeled* examples, maintaining performance on the base training ones. <img src = "assets/T.svg"/> includes *audio-visual level* and *category level* prototype-based co-adaptation. From left to right, more coverage and more bright colors represent a more reliable classification space.
+**Illustration of Proto-CAT.** The model transforms the classification space using ![[公式]](assets/T.svg) based on two kinds of audio-visual prototypes (class centers): (1) the base training categories (color with ![[公式]](https://via.placeholder.com/15/4099d8/000000?text=+)blue, ![[公式]](https://via.placeholder.com/15/3fa864/000000?text=+)green, and ![[公式]](https://via.placeholder.com/15/f256ad/000000?text=+)pink); and (2) the additional novel test categories (color with ![[公式]](https://via.placeholder.com/15/b53600/000000?text=+)burning transition). Proto-CAT learns and generalizes on novel test categories from *limited labeled* examples, maintaining performance on the base training ones. ![[公式]](assets/T.svg) includes *audio-visual level* and *category level* prototype-based co-adaptation. From left to right, more coverage and more bright colors represent a more reliable classification space.
 
 &nbsp;
 
@@ -83,6 +83,28 @@ The code repository for "Audio-Visual Generalized Few-Shot Learning with Prototy
         <td align="center">71.55</td>
         <td align="center">0.33</td>
         <td align="center">0.63</td>
+    </tr>
+    <tr>
+        <td>ProtoNet-GFSL</td>
+        <td align="center">39.95</td>
+        <td align="center">14.40</td>
+        <td align="center">96.33</td>
+        <td align="center">39.23</td>
+        <td align="center">54.79</td>
+        <td align="center">69.33</td>
+        <td align="center">0.76</td>
+        <td align="center">1.47</td>
+    </tr>
+    <tr>
+        <td>FEAT-GFSL</td>
+        <td align="center">39.95</td>
+        <td align="center">14.40</td>
+        <td align="center">96.33</td>
+        <td align="center">39.23</td>
+        <td align="center">54.79</td>
+        <td align="center">69.33</td>
+        <td align="center">0.76</td>
+        <td align="center">1.47</td>
     </tr>
 </table>
 
