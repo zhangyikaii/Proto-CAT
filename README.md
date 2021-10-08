@@ -98,14 +98,56 @@ The code repository for "Audio-Visual Generalized Few-Shot Learning with Prototy
     </tr>
     <tr>
         <td>FEAT-GFSL</td>
-        <td align="center">39.95</td>
-        <td align="center">14.40</td>
-        <td align="center">96.33</td>
-        <td align="center">39.23</td>
-        <td align="center">54.79</td>
-        <td align="center">69.33</td>
-        <td align="center">0.76</td>
-        <td align="center">1.47</td>
+        <td align="center">49.90</td>
+        <td align="center">25.75</td>
+        <td align="center">96.26</td>
+        <td align="center">54.52</td>
+        <td align="center">68.83</td>
+        <td align="center"><b>71.69</b></td>
+        <td align="center">2.62</td>
+        <td align="center">4.89</td>
+    </tr>
+    <tr>
+        <td>DFSL</td>
+        <td align="center">72.13</td>
+        <td align="center">42.56</td>
+        <td align="center">66.10</td>
+        <td align="center">84.62</td>
+        <td align="center">73.81</td>
+        <td align="center">31.68</td>
+        <td align="center"><b>68.72</b></td>
+        <td align="center">42.56</td>
+    </tr>
+    <tr>
+        <td>CASTLE</td>
+        <td align="center">75.48</td>
+        <td align="center">34.68</td>
+        <td align="center">73.50</td>
+        <td align="center">90.20</td>
+        <td align="center">80.74</td>
+        <td align="center">11.13</td>
+        <td align="center">54.07</td>
+        <td align="center">17.84</td>
+    </tr>
+    <tr>
+        <td>Proto-CAT</td>
+        <td style="vertical-align : middle;text-align:center;" rowspan="2"><b>84.18</b></td>
+        <td style="vertical-align : middle;text-align:center;" rowspan="2"><b>74.55</b></td>
+        <td align="center">93.37</td>
+        <td align="center"><b>91.20</b></td>
+        <td align="center"><b>92.13</b></td>
+        <td align="center">49.70</td>
+        <td align="center">38.27</td>
+        <td align="center">42.25</td>
+    </tr>
+    <tr>
+        <td>Proto-CAT</td>
+        <td align="center">93.18</td>
+        <td align="center">90.16</td>
+        <td align="center">91.49</td>
+        <td align="center">54.55</td>
+        <td align="center">38.16</td>
+        <td align="center"><b>43.88</b></td>
     </tr>
 </table>
 
