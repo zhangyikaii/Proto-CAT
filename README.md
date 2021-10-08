@@ -131,8 +131,8 @@ The code repository for "Audio-Visual Generalized Few-Shot Learning with Prototy
     </tr>
     <tr>
         <td>Proto-CAT</td>
-        <td style="vertical-align : middle;text-align:center;" rowspan="2"><b>84.18</b></td>
-        <td style="vertical-align : middle;text-align:center;" rowspan="2"><b>74.55</b></td>
+        <td style="vertical-align:middle;" align="center" rowspan="2"><b>84.18</b></td>
+        <td style="vertical-align:middle;" align="center" rowspan="2"><b>74.55</b></td>
         <td align="center">93.37</td>
         <td align="center"><b>91.20</b></td>
         <td align="center"><b>92.13</b></td>
