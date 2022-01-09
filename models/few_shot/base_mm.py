@@ -30,6 +30,7 @@ class MultiModalFewShotModel(FewShotModel):
 
         # mm_list 作为key, 以下全靠这个key进行索引. 请在Dataloader的时候过来的x就设置为这样的key.
         for mdl, bkb, bdt in zip(self.mm_list, self.args.backbone_class, self.args.backend_type):
+            # print(f'self.encoder_{mdl} = {bkb}(self.args.inlayer_resnet_type, \'{bdt}\')')
             exec(f'self.encoder_{mdl} = {bkb}(self.args.inlayer_resnet_type, \'{bdt}\')')
 
     def update_base_data_mean(self, cache=None):

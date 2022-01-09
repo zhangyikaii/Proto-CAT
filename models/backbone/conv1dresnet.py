@@ -2,6 +2,8 @@ from models.utils import nan_assert
 import torch
 import torch.nn as nn
 from torch.cuda.amp import autocast, GradScaler
+import torch.nn.functional as F
+from torch import _VF
 
 from models.backbone.res1d import resnet18, resnet34
 from models.backbone.tcn import MultiscaleMultibranchTCN
@@ -23,12 +25,22 @@ class AudioCNN(nn.Module):
 
         # initialize
         self._initialize_weights()
+
     def forward(self, x):
         x = self.frontend1D(x)
 
         x = self.resnet.forward_without_conv(x).transpose(1, 2)
 
         return x
+
+    def block_forward_para(self, x, params, base):
+        x = F.conv1d(x, params[base + '.frontend1D.0.weight'], bias=None, stride=(4,), padding=(38,))
+        x = F.batch_norm(x, weight=params[base + '.frontend1D.1.weight'], bias=params[base + '.frontend1D.1.bias'],
+            running_mean=self._modules['frontend1D']._modules['1'].running_mean,
+            running_var=self._modules['frontend1D']._modules['1'].running_var,
+            training=self.training)
+        x = F.prelu(x, params[base + '.frontend1D.2.weight'])
+        return self.resnet.block_forward_para_without_conv(x, params, base).transpose(1, 2)
 
     def _initialize_weights(self):
         for m in self.modules():
@@ -87,6 +99,73 @@ class Conv1dResNet(nn.Module):
             raise NotImplementedError
         self.dropout = nn.Dropout(p=0.3)
         self.relu = nn.LeakyReLU(0.5, inplace=True)
+    
+    def gru_block_forward_para(self, input, params, base):
+        _flat_weights = [params[i] for i in params.keys() if base in i]
+        max_batch_size = input.size(0) if self.gru.batch_first else input.size(1)
+        unsorted_indices = None
+
+        num_directions = 2 if self.gru.bidirectional else 1
+        hx = torch.zeros(self.gru.num_layers * num_directions,
+                            max_batch_size, self.gru.hidden_size,
+                            dtype=input.dtype, device=input.device)
+
+        result = _VF.gru(input, hx, _flat_weights, self.gru.bias, self.gru.num_layers,
+                            self.gru.dropout, self.gru.training, self.gru.bidirectional, self.gru.batch_first)
+
+        output = result[0]
+        hidden = result[1]
+
+        return output, self.gru.permute_hidden(hidden, unsorted_indices)
+
+    def lstm_block_forward_para(self, input, params, base):
+        _flat_weights = [params[i] for i in params.keys() if base in i]
+        max_batch_size = input.size(0) if self.gru.batch_first else input.size(1)
+        unsorted_indices = None
+
+        num_directions = 2 if self.gru.bidirectional else 1
+        real_hidden_size = self.gru.proj_size if self.gru.proj_size > 0 else self.gru.hidden_size
+        h_zeros = torch.zeros(self.gru.num_layers * num_directions,
+                                max_batch_size, real_hidden_size,
+                                dtype=input.dtype, device=input.device)
+        c_zeros = torch.zeros(self.gru.num_layers * num_directions,
+                                max_batch_size, self.gru.hidden_size,
+                                dtype=input.dtype, device=input.device)
+        hx = (h_zeros, c_zeros)
+
+        result = _VF.lstm(input, hx, _flat_weights, self.gru.bias, self.gru.num_layers,
+                            self.gru.dropout, self.gru.training, self.gru.bidirectional, self.gru.batch_first)
+        output = result[0]
+        hidden = result[1:]
+        return output, self.gru.permute_hidden(hidden, unsorted_indices)
+
+    def block_forward_para(self, x, params, base, relu=False):
+        if self.backend_type in ['GRU', 'LSTM']:
+            self.gru.flatten_parameters()
+
+        if self.training:
+            with autocast():
+                f_v = self.audio_cnn.block_forward_para(x.unsqueeze(1), params, base + '.audio_cnn')
+                f_v = F.dropout(f_v, p=0.3, training=self.training, inplace=True)
+        else:
+            f_v = self.audio_cnn.block_forward_para(x.unsqueeze(1), params, base + '.audio_cnn')
+            f_v = F.dropout(f_v, p=0.3, training=self.training, inplace=True)
+        f_v = f_v.float()
+
+        # f_v: [batch_size, 29, 512]
+
+        if self.backend_type == 'GRU':
+            h, _ = self.gru_block_forward_para(f_v, params, base + '.gru')
+        elif self.backend_type == 'LSTM':
+            h, _ = self.lstm_block_forward_para(f_v, params, base + '.gru')
+
+        # h = self.dropout(h)
+        if relu:
+            h = self.relu(h)
+
+        pred = F.linear(h.contiguous().view(h.shape[0], -1), weight=params[base + '.fc.weight'], bias=params[base + '.fc.bias'])
+        return pred
+
 
     def forward(self, x, relu=False):
         # x: [batch_size, 29, 1, 88, 88]
@@ -111,4 +190,3 @@ class Conv1dResNet(nn.Module):
         if relu:
             h = self.relu(h)
         return h
-

@@ -12,6 +12,8 @@ import numpy as np
 
 from typing import Callable
 
+from collections import OrderedDict
+
 
 def fit_handle(
     model: nn,
@@ -27,6 +29,7 @@ def fit_handle(
         prefix: str = 'train_'
         ):
         icassp_tsne = False
+
         if icassp_tsne and gfsl_test:
             model.phase_forward_begin(prefix)
         if prefix == 'train_':
@@ -108,7 +111,7 @@ class ProtoCAT(RGMultiModalProtoNetPlus):
             'audio': cur_share_prototypes['audio'] + cur_private_prototypes['audio']
             }
 
-        mdl1, mdl2, mdl3 = 'video', 'audio', 'crs'        
+        mdl1, mdl2, mdl3 = 'video', 'audio', 'crs'
         cur_prototypes[mdl3] = self.slf_attn_crs(q=cur_prototypes[mdl2], k=self.share_prototypes_video, v=self.share_prototypes_video)
 
         cur_prototypes[mdl1] = self.slf_attn_video(q=cur_prototypes[mdl1], k=self.share_prototypes_video, v=self.share_prototypes_video)

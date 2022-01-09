@@ -18,6 +18,8 @@ from scipy import sparse
 
 from sklearn.neighbors import NearestNeighbors
 
+from collections import OrderedDict
+
 
 class CheckModelChanged():
     def __init__(self):
@@ -141,7 +143,7 @@ def get_command_line_parser(is_alchemy=False, is_alchemy_sequential=False):
     parser.add_argument('--do_test', action='store_true', default=False)
     parser.add_argument('--data_path', type=str, default='/data/zhangyk/data')
     parser.add_argument('--model_class', type=str, default='ProtoNet',
-                        choices=['ProtoCAT_Plus', 'ProtoCAT', 'RGMultiModalProtoNetPlusCRS', 'RGMultiModalProtoNetSPPATTN', 'RGMultiModalProtoNetPlusWOATTN', 'RGMultiModalProtoNetPlus', 'CASTLE', 'RGTIMAPlus', 'MultiModalMatchingNet', 'RGTIMA', 'RGMultiModalProtoNet', 'WeijingNet', 'EfficientNet', 'LaplacianProtoNet', 'Rouge', 'Linear', 'MultiModalTIMAPlus', 'MultiModalTIMA', 'MultiModalProtoNet', 'RTPretrainClassifier', 'LinearClassifier', 'CRGPretrainClassifier', 'ProtoNetPretrainClassifier', 'MetaOptNet', 'MAML', 'MatchingNet', 'ProtoNet', 'BILSTM', 'DeepSet', 'GCN', 'RelationNet', 'FEAT', 'FEATSTAR', 'SemiFEAT', 'SemiProtoFEAT'])
+                        choices=['MultiModalMAML', 'ProtoCAT_Plus', 'ProtoCAT', 'RGMultiModalProtoNetPlusCRS', 'RGMultiModalProtoNetSPPATTN', 'RGMultiModalProtoNetPlusWOATTN', 'RGMultiModalProtoNetPlus', 'CASTLE', 'RGTIMAPlus', 'MultiModalMatchingNet', 'RGTIMA', 'RGMultiModalProtoNet', 'WeijingNet', 'EfficientNet', 'LaplacianProtoNet', 'Rouge', 'Linear', 'MultiModalTIMAPlus', 'MultiModalTIMA', 'MultiModalProtoNet', 'RTPretrainClassifier', 'LinearClassifier', 'CRGPretrainClassifier', 'ProtoNetPretrainClassifier', 'MetaOptNet', 'MAML', 'MatchingNet', 'ProtoNet', 'BILSTM', 'DeepSet', 'GCN', 'RelationNet', 'FEAT', 'FEATSTAR', 'SemiFEAT', 'SemiProtoFEAT'])
     parser.add_argument('--distance', default='l2')
     parser.add_argument('--dataset', type=str, default='MiniImageNet',
                         choices=['MiniImageNet', 'TieredImageNet', 'CUB', 'ESC50', 'LRW', 'LRW1000'])
@@ -254,9 +256,10 @@ def get_command_line_parser(is_alchemy=False, is_alchemy_sequential=False):
     parser.add_argument('--meta', action='store_true', default=False)
     parser.add_argument('--inner_train_steps', type=int, default=1)
     parser.add_argument('--inner_val_steps', type=int, default=3)
-    parser.add_argument('--inner_lr', type=float, default=0.4)
-    parser.add_argument('--meta_lr', type=float, default=0.001)
-    parser.add_argument('--order', type=int, default=1)
+    parser.add_argument('--inner_iters', type=int, default=8)
+    parser.add_argument('--gd_lr', type=float, default=0.005)
+    parser.add_argument('--gd_weight_decay', type=float, default=0.00005)
+    parser.add_argument('--gd_mom', type=float, default=0.9)
 
     # pretrain:
     parser.add_argument('--batch_size', type=int, default=128)
@@ -803,3 +806,19 @@ def create_affinity(X, knn):
 def alchemy_log(content, log_file_name='/home/zhangyk/Few-shot-Framework/run/alchemy_sequential.log'):
     with open(log_file_name, 'a') as f:
         f.write(content + '\n')
+
+
+def update_params(loss, params, step_size, weight_decay, momentum, mom_buffer, first_order=True, **kwargs):
+    name_list, tensor_list = zip(*params.items())
+
+    grads = torch.autograd.grad(loss, tensor_list, create_graph=not first_order)
+    updated_params = OrderedDict()
+
+    for name, param, grad in zip(name_list, tensor_list, grads):
+        grad = grad + weight_decay * param
+        grad = grad + momentum * mom_buffer[name]
+        mom_buffer[name] = grad
+
+        updated_params[name] = param - step_size * grad
+
+    return updated_params, mom_buffer

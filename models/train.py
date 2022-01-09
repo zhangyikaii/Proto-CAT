@@ -43,6 +43,8 @@ from models.few_shot.protonet_mm import fit_handle as MultiModalProtoNet_fit_han
 # from models.few_shot.rgprotonet_plus_crs import fit_handle as RGMultiModalProtoNetPlusCRS_fit_handle
 from models.few_shot.protocat import fit_handle as ProtoCAT_fit_handle
 ProtoCAT_Plus_fit_handle = ProtoCAT_fit_handle
+from models.few_shot.rgmaml import fit_handle as MultiModalMAML_fit_handle
+
 
 # from models.few_shot.protonet import protonet_pretrain_fit_handle as ProtoNetPretrainClassifier_fit_handle
 from models.few_shot.protonet import crg_pretrain_fit_handle as CRGPretrainClassifier_fit_handle

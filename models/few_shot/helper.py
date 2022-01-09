@@ -24,6 +24,7 @@ from models.few_shot.protonet import ProtoNet
 # from models.few_shot.protonet import LaplacianProtoNet
 # from models.few_shot.efficientnet import EfficientNet
 # from models.few_shot.weijingnet import WeijingNet
+from models.few_shot.rgmaml import MultiModalMAML
 
 from models.few_shot.protonet_mm import MultiModalProtoNet
 # from models.few_shot.tima import MultiModalTIMA

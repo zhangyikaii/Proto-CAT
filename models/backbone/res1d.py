@@ -1,7 +1,10 @@
 import math
 import torch.nn as nn
+import torch.nn.functional as F
+
 import pdb
 
+from collections import OrderedDict
 
 
 def conv3x3(in_planes, out_planes, stride=1):
@@ -27,7 +30,7 @@ def downsample_basic_block_v2( inplanes, outplanes, stride ):
 class BasicBlock1D(nn.Module):
     expansion = 1
 
-    def __init__(self, inplanes, planes, stride=1, downsample=None, relu_type = 'relu' ):
+    def __init__(self, inplanes, planes, stride=1, downsample=None, relu_type = 'relu'):
         super(BasicBlock1D, self).__init__()
 
         assert relu_type in ['relu','prelu']
@@ -67,23 +70,51 @@ class BasicBlock1D(nn.Module):
 
         return out
 
+    def block_forward_para(self, x, params, base, mode, modules, downsample=False):
+        residual = x
+
+        out = F.conv1d(x, params[base + 'conv1.weight'], stride=(self.stride,), padding=(1,))
+
+        out = F.batch_norm(out, weight=params[base + 'bn1.weight'], bias=params[base + 'bn1.bias'],
+            running_mean=modules['bn1'].running_mean,
+            running_var=modules['bn1'].running_var, training = mode)
+        out = self.relu1(out)
+
+        out = F.conv1d(out, params[base + 'conv2.weight'], stride=(1,), padding=(1,))
+        out = F.batch_norm(out, weight=params[base + 'bn2.weight'], bias=params[base + 'bn2.bias'],
+            running_mean=modules['bn2'].running_mean,
+            running_var=modules['bn2'].running_var, training = mode)
+
+        if downsample is True:
+            residual = F.conv1d(x, params[base + 'downsample.0.weight'], stride=(self.stride,))
+            residual = F.batch_norm(residual, weight=params[base + 'downsample.1.weight'], 
+                                    bias=params[base + 'downsample.1.bias'],
+                                    running_mean=modules['downsample']._modules['1'].running_mean,
+                                    running_var=modules['downsample']._modules['1'].running_var, training = mode)
+
+        out += residual
+
+        out = self.relu2(out)
+
+
+        return out
+
 
 class ResNet1D(nn.Module):
-
     def __init__(self, block=BasicBlock1D, layers=[2, 2, 2, 2], relu_type='relu'):
         super(ResNet1D, self).__init__()
         self.inplanes = 64
         self.relu_type = relu_type
         self.downsample_block = downsample_basic_block
 
-        self.conv1 = nn.Conv1d(1, self.inplanes, kernel_size=80, stride=4, padding=38,
-                               bias=False)
-        self.bn1 = nn.BatchNorm1d(self.inplanes)
+        # self.conv1 = nn.Conv1d(1, self.inplanes, kernel_size=80, stride=4, padding=38,
+        #                        bias=False)
+        # self.bn1 = nn.BatchNorm1d(self.inplanes)
         # type of ReLU is an input option
-        if relu_type == 'relu':
-            self.relu = nn.ReLU(inplace=True)
-        elif relu_type == 'prelu':
-            self.relu = nn.PReLU(num_parameters=self.inplanes)
+        # if relu_type == 'relu':
+        #     self.relu = nn.ReLU(inplace=True)
+        # elif relu_type == 'prelu':
+        #     self.relu = nn.PReLU(num_parameters=self.inplanes)
         self.layer1 = self._make_layer(block, 64, layers[0])
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
         self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
@@ -106,8 +137,6 @@ class ResNet1D(nn.Module):
 
 
     def _make_layer(self, block, planes, blocks, stride=1):
-
-
         downsample = None
         if stride != 1 or self.inplanes != planes * block.expansion:
             downsample = self.downsample_block( inplanes = self.inplanes, 
@@ -123,18 +152,19 @@ class ResNet1D(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
-        x = self.conv1(x)
-        x = self.bn1(x)
-        x = self.relu(x)
+        raise NotImplementedError
+        # x = self.conv1(x)
+        # x = self.bn1(x)
+        # x = self.relu(x)
 
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.layer4(x)
-        x = self.avgpool(x)
+        # x = self.layer1(x)
+        # x = self.layer2(x)
+        # x = self.layer3(x)
+        # x = self.layer4(x)
+        # x = self.avgpool(x)
 
-        return x
-    
+        # return x
+
     def forward_without_conv(self, x):
         x = self.layer1(x)
         x = self.layer2(x)
@@ -142,6 +172,20 @@ class ResNet1D(nn.Module):
         x = self.layer4(x)
 
         x = self.avgpool(x)
+        return x
+
+    def block_forward_para_without_conv(self, x, params, base, embedding=False):
+        x = self.layer1[0].block_forward_para(x, params, base + '.resnet.layer1.0.', self.training, self._modules['layer1']._modules['0']._modules, downsample=False)
+        x = self.layer1[1].block_forward_para(x, params, base + '.resnet.layer1.1.', self.training, self._modules['layer1']._modules['1']._modules, downsample=False)
+        x = self.layer2[0].block_forward_para(x, params, base + '.resnet.layer2.0.', self.training, self._modules['layer2']._modules['0']._modules, downsample=True)
+        x = self.layer2[1].block_forward_para(x, params, base + '.resnet.layer2.1.', self.training, self._modules['layer2']._modules['1']._modules, downsample=False)
+        x = self.layer3[0].block_forward_para(x, params, base + '.resnet.layer3.0.', self.training, self._modules['layer3']._modules['0']._modules, downsample=True)
+        x = self.layer3[1].block_forward_para(x, params, base + '.resnet.layer3.1.', self.training, self._modules['layer3']._modules['1']._modules, downsample=False)
+        x = self.layer4[0].block_forward_para(x, params, base + '.resnet.layer4.0.', self.training, self._modules['layer4']._modules['0']._modules, downsample=True)
+        x = self.layer4[1].block_forward_para(x, params, base + '.resnet.layer4.1.', self.training, self._modules['layer4']._modules['1']._modules, downsample=False)
+
+        x = self.avgpool(x)
+
         return x
 
 

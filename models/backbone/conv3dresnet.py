@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.cuda.amp import autocast, GradScaler
+from torch import _VF
 
 from models.backbone.res18 import resnet18, resnet34
 from models.backbone.tcn import MultiscaleMultibranchTCN
@@ -36,6 +37,24 @@ class VideoCNN(nn.Module):
         x = x.contiguous()
         x = x.view(-1, 64, x.size(3), x.size(4))
         x = self.resnet18.forward_without_conv(x)
+        x = x.view(b, -1, 512)
+
+        return x
+
+    def block_forward_para(self, x, params, base):
+        b = x.size(0)
+        x = x.transpose(1, 2)
+        x = F.conv3d(x, params[base + '.frontend3D.0.weight'], bias=None, stride=(1, 2, 2), padding=(2, 3, 3))
+        x = F.batch_norm(x, weight=params[base + '.frontend3D.1.weight'], bias=params[base + '.frontend3D.1.bias'],
+            running_mean=self._modules['frontend3D']._modules['1'].running_mean,
+            running_var=self._modules['frontend3D']._modules['1'].running_var,
+            training=self.training)
+        x = F.relu(x, inplace=True)
+        x = F.max_pool3d(x, kernel_size=(1, 3, 3), stride=(1, 2, 2), padding=(0, 1, 1))
+        x = x.transpose(1, 2)
+        x = x.contiguous()
+        x = x.view(-1, 64, x.size(3), x.size(4))
+        x = self.resnet18.block_forward_para_without_conv(x, params, base)
         x = x.view(b, -1, 512)
 
         return x
@@ -99,6 +118,75 @@ class Conv3dResNet(nn.Module):
         self.relu = nn.LeakyReLU(0.5, inplace=True)
         # self.v_cls = nn.Linear(1024*2, 500)
 
+    def gru_block_forward_para(self, input, params, base):
+        _flat_weights = [params[i] for i in params.keys() if base in i]
+        max_batch_size = input.size(0) if self.gru.batch_first else input.size(1)
+        unsorted_indices = None
+
+        num_directions = 2 if self.gru.bidirectional else 1
+        hx = torch.zeros(self.gru.num_layers * num_directions,
+                            max_batch_size, self.gru.hidden_size,
+                            dtype=input.dtype, device=input.device)
+
+        result = _VF.gru(input, hx, _flat_weights, self.gru.bias, self.gru.num_layers,
+                            self.gru.dropout, self.gru.training, self.gru.bidirectional, self.gru.batch_first)
+
+        output = result[0]
+        hidden = result[1]
+
+        return output, self.gru.permute_hidden(hidden, unsorted_indices)
+
+    def lstm_block_forward_para(self, input, params, base):
+        _flat_weights = [params[i] for i in params.keys() if base in i]
+
+        max_batch_size = input.size(0) if self.gru.batch_first else input.size(1)
+        unsorted_indices = None
+
+        num_directions = 2 if self.gru.bidirectional else 1
+        real_hidden_size = self.gru.proj_size if self.gru.proj_size > 0 else self.gru.hidden_size
+        h_zeros = torch.zeros(self.gru.num_layers * num_directions,
+                                max_batch_size, real_hidden_size,
+                                dtype=input.dtype, device=input.device)
+        c_zeros = torch.zeros(self.gru.num_layers * num_directions,
+                                max_batch_size, self.gru.hidden_size,
+                                dtype=input.dtype, device=input.device)
+        hx = (h_zeros, c_zeros)
+
+        result = _VF.lstm(input, hx, _flat_weights, self.gru.bias, self.gru.num_layers,
+                            self.gru.dropout, self.gru.training, self.gru.bidirectional, self.gru.batch_first)
+        output = result[0]
+        hidden = result[1:]
+        return output, self.gru.permute_hidden(hidden, unsorted_indices)
+
+    def block_forward_para(self, x, params, base, relu=False):
+        if self.backend_type in ['GRU', 'LSTM']:
+            self.gru.flatten_parameters()
+
+        if self.training:
+            with autocast():
+                f_v = self.video_cnn.block_forward_para(x, params, base + '.video_cnn')
+                f_v = F.dropout(f_v, p=0.3, training=self.training, inplace=True)
+        else:
+            f_v = self.video_cnn.block_forward_para(x, params, base + '.video_cnn')
+            f_v = F.dropout(f_v, p=0.3, training=self.training, inplace=True)
+        f_v = f_v.float()
+
+        # f_v: [batch_size, 29, 512]
+
+        if self.backend_type == 'GRU':
+            h, _ = self.gru_block_forward_para(f_v, params, base + '.gru')
+        elif self.backend_type == 'LSTM':
+            h, _ = self.lstm_block_forward_para(f_v, params, base + '.gru')
+        else:
+            raise NotImplementedError
+
+        # h = self.dropout(h)
+        if relu:
+            h = self.relu(h)
+
+        pred = F.linear(h.contiguous().view(h.shape[0], -1), weight=params[base + '.fc.weight'], bias=params[base + '.fc.bias'])
+
+        return pred
 
     def forward(self, x, relu=False):
         # x: [batch_size, 29, 1, 88, 88]

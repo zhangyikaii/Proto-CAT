@@ -164,7 +164,6 @@ class FewShotModel(nn.Module):
         PREDEFINE_BASE_DATA_MEAN = False
         if PREDEFINE_BASE_DATA_MEAN:
             self.update_base_data_mean()
-            assert 0
         # 仅在 meta-test 开始时更新 base_data_mean.
         if prefix == 'train_' and not (self.phase_forward_begin_flag & 0b1):
             self.phase_forward_begin_flag ^= 0b1
