@@ -84,7 +84,29 @@ The code repository for "Audio-Visual Generalized Few-Shot Learning with Prototy
         <td align="center">0.63</td>
     </tr>
     <tr>
-        <td><a href="https://arxiv.org/abs/1703.05175">ProtoNet-GFSL</a></td>
+        <td><a href="https://arxiv.org/abs/1703.03400">MAML</a></td>
+        <td align="center">35.49</td>
+        <td align="center">10.25</td>
+        <td align="center">40.09</td>
+        <td align="center">66.70</td>
+        <td align="center">49.20</td>
+        <td align="center">29.40</td>
+        <td align="center">23.21</td>
+        <td align="center">25.83</td>
+    </tr>
+    <tr>
+        <td><a href="https://arxiv.org/abs/2109.04504">BootstrappedMAML</a></td>
+        <td align="center">33.75</td>
+        <td align="center">6.52</td>
+        <td align="center">35.29</td>
+        <td align="center">64.20</td>
+        <td align="center">45.17</td>
+        <td align="center">28.15</td>
+        <td align="center">27.98</td>
+        <td align="center">28.09</td>
+    </tr>
+    <tr>
+        <td><a href="https://arxiv.org/abs/1703.05175">ProtoNet</a></td>
         <td align="center">39.95</td>
         <td align="center">14.40</td>
         <td align="center">96.33</td>
@@ -94,8 +116,41 @@ The code repository for "Audio-Visual Generalized Few-Shot Learning with Prototy
         <td align="center">0.76</td>
         <td align="center">1.47</td>
     </tr>
+        <tr>
+        <td><a href="https://arxiv.org/abs/1606.04080">MatchingNet</a></td>
+        <td align="center">36.76</td>
+        <td align="center">12.09</td>
+        <td align="center">94.54</td>
+        <td align="center">36.57</td>
+        <td align="center">52.31</td>
+        <td align="center">68.42</td>
+        <td align="center">0.95</td>
+        <td align="center">1.89</td>
+    </tr>
     <tr>
-        <td><a href="https://arxiv.org/abs/1812.03664">FEAT-GFSL</a></td>
+        <td><a href="https://arxiv.org/abs/1904.03758">MetaOptNet</a></td>
+        <td align="center">43.81</td>
+        <td align="center">19.59</td>
+        <td align="center">88.20</td>
+        <td align="center">47.06</td>
+        <td align="center">60.73</td>
+        <td align="center">69.01</td>
+        <td align="center">1.79</td>
+        <td align="center">3.44</td>
+    </tr>
+    <tr>
+        <td><a href="https://arxiv.org/abs/2003.06777">DeepEMD</a></td>
+        <td align="center">--</td>
+        <td align="center">27.02</td>
+        <td align="center">82.53</td>
+        <td align="center">16.43</td>
+        <td align="center">27.02</td>
+        <td align="center">64.54</td>
+        <td align="center">0.80</td>
+        <td align="center">1.56</td>
+    </tr>
+    <tr>
+        <td><a href="https://arxiv.org/abs/1812.03664">FEAT</a></td>
         <td align="center">49.90</td>
         <td align="center">25.75</td>
         <td align="center">96.26</td>
