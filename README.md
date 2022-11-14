@@ -1,6 +1,6 @@
 # Audio-Visual Generalized Few-Shot Learning with Prototype-Based Co-Adaptation
 
-The code repository for "Audio-Visual Generalized Few-Shot Learning with Prototype-Based Co-Adaptation" [[paper, to appear]]() [[slides, to appear]]() [[poster, to appear]]() in PyTorch. If you use any content of this repo for your work, please cite the following bib entry:
+The code repository for "Audio-Visual Generalized Few-Shot Learning with Prototype-Based Co-Adaptation" [[paper]](https://www.isca-speech.org/archive/pdfs/interspeech_2022/zhang22k_interspeech.pdf) in PyTorch. If you use any content of this repo for your work, please cite the following bib entry:
 
 ```
 @misc{Proto-CAT,
