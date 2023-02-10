@@ -3,14 +3,24 @@
 The code repository for "Audio-Visual Generalized Few-Shot Learning with Prototype-Based Co-Adaptation" [[paper]](https://www.isca-speech.org/archive/pdfs/interspeech_2022/zhang22k_interspeech.pdf) in PyTorch. If you use any content of this repo for your work, please cite the following bib entry:
 
 ```
-@misc{Proto-CAT,
-  author = {Yi-Kai Zhang},
-  title = {Audio-Visual Generalized Few-Shot Learning with Prototype-Based Co-Adaptation},
-  year = {2021},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/ZhangYikaii/Proto-CAT}},
-  commit = {main}
+@inproceedings{DBLP:conf/interspeech/Zhang0YZ22,
+  author    = {Yi{-}Kai Zhang and
+               Da{-}Wei Zhou and
+               Han{-}Jia Ye and
+               De{-}Chuan Zhan},
+  editor    = {Hanseok Ko and
+               John H. L. Hansen},
+  title     = {Audio-Visual Generalized Few-Shot Learning with Prototype-Based Co-Adaptation},
+  booktitle = {Interspeech 2022, 23rd Annual Conference of the International Speech
+               Communication Association, Incheon, Korea, 18-22 September 2022},
+  pages     = {531--535},
+  publisher = {{ISCA}},
+  year      = {2022},
+  url       = {https://doi.org/10.21437/Interspeech.2022-652},
+  doi       = {10.21437/Interspeech.2022-652},
+  timestamp = {Tue, 11 Oct 2022 19:11:50 +0200},
+  biburl    = {https://dblp.org/rec/conf/interspeech/Zhang0YZ22.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 ```
 
